@@ -1,6 +1,7 @@
 package com.alonso.contactosroom
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,10 +52,11 @@ class MainActivity : ComponentActivity() {
                 "contactos-db"
             ).build()
             coroutine = rememberCoroutineScope()
-            var listaContactos: List<Contacto> = emptyList()
+            val listaContactos by remember<MutableState<List<Contacto>>> { mutableStateOf(listOf<Contacto>()) }
             LaunchedEffect(Unit) {
                 coroutine.launch {
                     listaContactos = db.contactosDao().getAll()
+                    Log.d(":::CR", "${listaContactos.size}")
                 }
             }
             val navController = rememberNavController()
@@ -75,6 +81,7 @@ class MainActivity : ComponentActivity() {
                             floatingActionButtonPosition = FabPosition.End, // Alinea el FAB a la derecha
                             ) { innerPadding ->
                             Text("Contactos", fontSize = 36.sp, modifier = Modifier.padding(innerPadding))
+                            Log.d(":::CR", "Size: ${listaContactos.size}")
                             ItemList(listaContactos, innerPadding)
                         }
 

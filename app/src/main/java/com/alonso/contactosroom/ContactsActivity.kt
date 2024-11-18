@@ -3,6 +3,7 @@ package com.alonso.contactosroom
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -47,9 +48,7 @@ import com.alonso.contactosroom.ent.Contacto
 @Composable
     fun ItemList(itemContacto: List<Contacto>, modifier: PaddingValues) {
         Column(modifier = Modifier.fillMaxSize().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            if (itemContacto.isEmpty()) {
-                Text("La lista de contactos está vacía.", textAlign = TextAlign.Center, fontSize = 18.sp)
-            }else{
+            //if (itemContacto.isNotEmpty()) {
                 LazyVerticalGrid (
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.fillMaxWidth().padding(modifier),
@@ -61,7 +60,9 @@ import com.alonso.contactosroom.ent.Contacto
                         Contactos(contacto = itemContacto[index])
                     }
                 }
-            }
+            /*}else {
+                Text("La lista de contactos está vacía.", textAlign = TextAlign.Center, fontSize = 18.sp)
+            }*/
         }
     }
 
@@ -86,6 +87,7 @@ import com.alonso.contactosroom.ent.Contacto
 
     @Composable
     fun Contactos(contacto: Contacto) {
+        Log.d(":::CR", "Contactos reached!")
         val ctx = LocalContext.current
         var foto = R.drawable.ic_launcher_foreground
         var showPhone by remember {

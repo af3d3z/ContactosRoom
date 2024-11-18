@@ -1,6 +1,7 @@
 package com.alonso.contactosroom
 
 import android.graphics.Outline
+import android.util.Log
 import android.widget.Space
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -77,5 +78,7 @@ fun AgregarContacto(){
 }
 
 suspend fun addContact(nombre: String, tlf: String, gen: Int){
-    MainActivity.db.contactosDao().insert(contacto = Contacto(tlf, nombre, gen))
+    var contacto = Contacto(nombre, tlf, gen)
+    Log.d(":::CR", "${contacto.nombre} ${contacto.tlf} ${contacto.fto}")
+    MainActivity.db.contactosDao().insert(contacto = contacto)
 }
