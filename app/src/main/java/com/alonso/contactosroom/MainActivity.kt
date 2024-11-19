@@ -52,13 +52,6 @@ class MainActivity : ComponentActivity() {
                 "contactos-db"
             ).build()
             coroutine = rememberCoroutineScope()
-            val listaContactos by remember<MutableState<List<Contacto>>> { mutableStateOf(listOf<Contacto>()) }
-            LaunchedEffect(Unit) {
-                coroutine.launch {
-                    listaContactos = db.contactosDao().getAll()
-                    Log.d(":::CR", "${listaContactos.size}")
-                }
-            }
             val navController = rememberNavController()
             NavHost(
                 navController,
@@ -81,8 +74,7 @@ class MainActivity : ComponentActivity() {
                             floatingActionButtonPosition = FabPosition.End, // Alinea el FAB a la derecha
                             ) { innerPadding ->
                             Text("Contactos", fontSize = 36.sp, modifier = Modifier.padding(innerPadding))
-                            Log.d(":::CR", "Size: ${listaContactos.size}")
-                            ItemList(listaContactos, innerPadding)
+                            ItemList(innerPadding)
                         }
 
                     }
@@ -90,7 +82,7 @@ class MainActivity : ComponentActivity() {
                 composable("agregarContactos") {
                     Scaffold { innerPadding ->
                         Text("Añadir contacto", fontSize = 36.sp, modifier = Modifier.padding(innerPadding))
-                        AgregarContacto()
+                        AgregarContacto(navController)
                     }
                 }
             }
